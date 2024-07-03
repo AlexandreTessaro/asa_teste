@@ -10,7 +10,7 @@ void main() async {
   await Firebase.initializeApp(
     options: firebaseConfig, // Use firebaseConfig conforme definido no firebase_options.dart
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
       home: SignInPage(),
       routes: {
         '/signin': (context) => SignInPage(),
-        '/signup': (context) => SignUpPage(),
-        '/homepage': (context) => HomePage(),
+        '/signup': (context) => const SignUpPage(),
+        '/homepage': (context) => const HomePage(),
       },
     );
   }

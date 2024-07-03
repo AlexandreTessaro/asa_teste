@@ -22,7 +22,7 @@ class SignUpPageState extends State<SignUpPage> {
   bool _isLoading = false;
   String _errorMessage = '';
 
-  Future<void> _register(BuildContext context) async {
+  Future<void> _register() async {
     final String email = emailController.text.trim();
     final String password = passwordController.text.trim();
     final String confirmPassword = confirmPasswordController.text.trim();
@@ -49,23 +49,30 @@ class SignUpPageState extends State<SignUpPage> {
           'uid': userCredential.user!.uid,
           'createdAt': FieldValue.serverTimestamp(),
         });
+
         if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        _navigateToHomePage();
       } on FirebaseAuthException catch (e) {
+        if (!mounted) return;
         setState(() {
           _errorMessage = e.message!;
           _isLoading = false;
         });
       } catch (e) {
+        if (!mounted) return;
         setState(() {
           _errorMessage = 'An unknown error occurred.';
           _isLoading = false;
         });
       }
     }
+  }
+
+  void _navigateToHomePage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
   }
 
   @override
@@ -160,7 +167,7 @@ class SignUpPageState extends State<SignUpPage> {
                   const Center(child: CircularProgressIndicator())
                 else
                   ElevatedButton(
-                    onPressed: () => _register(context),
+                    onPressed: _register,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[800],
                       foregroundColor: Colors.white,

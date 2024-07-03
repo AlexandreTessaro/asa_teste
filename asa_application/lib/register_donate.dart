@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterDonatePage extends StatefulWidget {
+  const RegisterDonatePage({super.key});
+
   @override
-  _RegisterDonatePageState createState() => _RegisterDonatePageState();
+  RegisterDonatePageState createState() => RegisterDonatePageState();
 }
 
-class _RegisterDonatePageState extends State<RegisterDonatePage> {
+class RegisterDonatePageState extends State<RegisterDonatePage> {
   final _formKey = GlobalKey<FormState>();
   final _localController = TextEditingController();
   final _beneficiarioController = TextEditingController();
@@ -15,7 +17,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
   final _telefoneController = TextEditingController();
   final _enderecoController = TextEditingController();
   final _numeroPessoasResidenciaController = TextEditingController();
-  
+
   void _registerDonation() {
     if (_formKey.currentState!.validate()) {
       try {
@@ -26,14 +28,14 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
           beneficiario: _beneficiarioController.text,
           cpf: _cpfController.text,
           rg: _rgController.text,
-          nascimento: DateTime.now(), // Você pode adicionar um campo para capturar a data de nascimento
+          nascimento: DateTime.now(),  // Você pode adicionar um campo para capturar a data de nascimento
           telefone: _telefoneController.text,
           endereco: _enderecoController.text,
           numeroPessoasResidencia: int.parse(_numeroPessoasResidenciaController.text),
-          itensDoacao: [], // Adicionar lógica para capturar os itens de doação
+          itensDoacao: [],  // Adicionar lógica para capturar os itens de doação
         );
         FirebaseFirestore.instance.collection('donations').add(donation.toMap()).then((_) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Doação registrada com sucesso')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Doação registrada com sucesso')));
           _formKey.currentState!.reset();
         }).catchError((error) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro ao registrar doação: $error')));
@@ -60,17 +62,17 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro de Doações'),
+        title: const Text('Cadastro de Doações'),
       ),
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: <Widget>[
               TextFormField(
                 controller: _localController,
-                decoration: InputDecoration(labelText: 'Local'),
+                decoration: const InputDecoration(labelText: 'Local'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o local';
@@ -80,7 +82,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _beneficiarioController,
-                decoration: InputDecoration(labelText: 'Beneficiário'),
+                decoration: const InputDecoration(labelText: 'Beneficiário'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o beneficiário';
@@ -90,7 +92,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _cpfController,
-                decoration: InputDecoration(labelText: 'CPF'),
+                decoration: const InputDecoration(labelText: 'CPF'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o CPF';
@@ -100,7 +102,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _rgController,
-                decoration: InputDecoration(labelText: 'RG'),
+                decoration: const InputDecoration(labelText: 'RG'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o RG';
@@ -110,7 +112,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _telefoneController,
-                decoration: InputDecoration(labelText: 'Telefone'),
+                decoration: const InputDecoration(labelText: 'Telefone'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o telefone';
@@ -120,7 +122,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _enderecoController,
-                decoration: InputDecoration(labelText: 'Endereço'),
+                decoration: const InputDecoration(labelText: 'Endereço'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira o endereço';
@@ -130,7 +132,7 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
               ),
               TextFormField(
                 controller: _numeroPessoasResidenciaController,
-                decoration: InputDecoration(labelText: 'Número de Pessoas na Residência'),
+                decoration: const InputDecoration(labelText: 'Número de Pessoas na Residência'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -142,10 +144,10 @@ class _RegisterDonatePageState extends State<RegisterDonatePage> {
                   return null;
                 },
               ),
-              // Adicionar mais campos conforme necessário
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registerDonation,
-                child: Text('Registrar Doação'),
+                child: const Text('Registrar Doação'),
               ),
             ],
           ),

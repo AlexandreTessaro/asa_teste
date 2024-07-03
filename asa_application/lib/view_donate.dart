@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewDonatePage extends StatelessWidget {
+  // Using super parameter directly
+  const ViewDonatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visualizar Doações'),
+        title: const Text('Visualizar Doações'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('donations').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           return ListView(
             children: snapshot.data!.docs.map((document) {
@@ -39,16 +42,17 @@ class ViewDonatePage extends StatelessWidget {
 class DonationDetailPage extends StatelessWidget {
   final DocumentSnapshot donation;
 
-  DonationDetailPage({required this.donation});
+  // Using super parameter directly
+  const DonationDetailPage({super.key, required this.donation});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalhes da Doação'),
+        title: const Text('Detalhes da Doação'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: <Widget>[
             Text('Local: ${donation['local']}'),
@@ -58,8 +62,7 @@ class DonationDetailPage extends StatelessWidget {
             Text('Telefone: ${donation['telefone']}'),
             Text('Endereço: ${donation['endereco']}'),
             Text('Número de Pessoas na Residência: ${donation['numeroPessoasResidencia']}'),
-            // Adicione mais detalhes conforme necessário
-            Text('Itens Doação:'),
+            const Text('Itens Doação:'),
             ...donation['itensDoacao'].map<Widget>((item) {
               return ListTile(
                 title: Text(item['descricao']),
