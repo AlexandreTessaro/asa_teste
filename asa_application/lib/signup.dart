@@ -29,7 +29,7 @@ class SignUpPageState extends State<SignUpPage> {
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
+        const SnackBar(content: Text('As senhas não coincidem')),
       );
       return;
     }
@@ -61,7 +61,7 @@ class SignUpPageState extends State<SignUpPage> {
       } catch (e) {
         if (!mounted) return;
         setState(() {
-          _errorMessage = 'An unknown error occurred.';
+          _errorMessage = 'Ocorreu um erro desconhecido.';
           _isLoading = false;
         });
       }
@@ -93,7 +93,7 @@ class SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Create an Account', style: TextStyle(fontSize: 24, color: Colors.white)),
+                const Text('Crie a sua conta aqui', style: TextStyle(fontSize: 24, color: Colors.white)),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: emailController,
@@ -111,7 +111,7 @@ class SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter an email';
+                      return 'Por favor insira um e-mail';
                     }
                     return null;
                   },
@@ -121,7 +121,7 @@ class SignUpPageState extends State<SignUpPage> {
                   controller: passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'Senha',
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 2.0),
                     ),
@@ -133,9 +133,9 @@ class SignUpPageState extends State<SignUpPage> {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter a password';
+                      return 'Por favor insira uma senha';
                     } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters long';
+                      return 'A senha deve ter pelo menos 6 caracteres';
                     }
                     return null;
                   },
@@ -145,7 +145,7 @@ class SignUpPageState extends State<SignUpPage> {
                   controller: confirmPasswordController,
                   obscureText: true,
                   decoration: const InputDecoration(
-                    labelText: 'Confirm Password',
+                    labelText: 'Confirme a senha',
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 2.0),
                     ),
@@ -157,7 +157,7 @@ class SignUpPageState extends State<SignUpPage> {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please confirm your password';
+                      return 'Por favor confirme a sua senha';
                     }
                     return null;
                   },
@@ -173,7 +173,7 @@ class SignUpPageState extends State<SignUpPage> {
                       foregroundColor: Colors.white,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text('SIGN UP'),
+                    child: const Text('Registre-se'),
                   ),
                 const SizedBox(height: 13),
                 if (_errorMessage.isNotEmpty)

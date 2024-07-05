@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; // Esta importação é necessária para o DefaultFirebaseOptions
+import 'firebase_options.dart'; 
 import 'signin.dart';
 import 'signup.dart';
 import 'homepage.dart';
@@ -8,7 +8,7 @@ import 'homepage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: firebaseConfig, // Use firebaseConfig conforme definido no firebase_options.dart
+    options: firebaseConfig, 
   );
   runApp(const MyApp());
 }
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Firebase Auth',
+      title: 'ASA',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

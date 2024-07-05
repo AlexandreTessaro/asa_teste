@@ -14,11 +14,11 @@ class SignInPage extends StatelessWidget {
     final String email = emailController.text.trim();
     final String password = passwordController.text.trim();
     debugPrint("Email: $email");
-    debugPrint("Password: $password");
+    debugPrint("Senha: $password");
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email and password must not be empty')),
+        const SnackBar(content: Text('E-mail e senha não devem estar vazios')),
       );
       return;
     }
@@ -38,7 +38,7 @@ class SignInPage extends StatelessWidget {
       if (context.mounted) {
         debugPrint("FirebaseAuthException: ${e.message}");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.message ?? 'Error signing in'),
+          content: Text(e.message ?? 'Erro ao fazer login'),
         ));
       }
     } catch (e) {
@@ -46,7 +46,7 @@ class SignInPage extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('An unknown error occurred'),
+            content: Text('Ocorreu um erro desconhecido'),
           ),
         );
       }
@@ -70,7 +70,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('Welcome Back', style: TextStyle(fontSize: 24, color: Colors.white)),
+              const Text('Bem vindo', style: TextStyle(fontSize: 24, color: Colors.white)),
               const SizedBox(height: 20),
               TextField(
                 controller: emailController,
@@ -91,7 +91,7 @@ class SignInPage extends StatelessWidget {
                 controller: passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'Senha',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey, width: 2.0),
                   ),
@@ -110,14 +110,14 @@ class SignInPage extends StatelessWidget {
                   foregroundColor: Colors.white,
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text('SIGN IN'),
+                child: const Text('Conecte-se'),
               ),
               const SizedBox(height: 13),
               TextButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
                 },
-                child: const Text('Don\'t have an account? Sign Up', style: TextStyle(color: Colors.white)),
+                child: const Text('Não tem conta? Registre-se', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

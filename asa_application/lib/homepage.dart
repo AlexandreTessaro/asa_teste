@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'register_donate.dart'; // Certifique-se de que o caminho está correto
-import 'view_donate.dart'; // Certifique-se de que o caminho está correto
-import 'signin.dart'; // Certifique-se de que o caminho está correto
+import 'register_donate.dart'; 
+import 'view_donate.dart';
+import 'signin.dart'; 
 
-// Definindo um GlobalKey para o NavigatorState
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class HomePage extends StatelessWidget {
@@ -13,7 +12,6 @@ class HomePage extends StatelessWidget {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
 
-    // Usando o navigatorKey para acessar o Navigator
     navigatorKey.currentState?.pushReplacement(
       MaterialPageRoute(builder: (context) => SignInPage()),
     );
@@ -22,7 +20,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey, // Configurando o GlobalKey no MaterialApp
+      navigatorKey: navigatorKey, 
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Homepage'),
@@ -48,7 +46,7 @@ class HomePage extends StatelessWidget {
                 leading: const Icon(Icons.info),
                 title: const Text('Informações do Usuário'),
                 onTap: () {
-                  // Navegar para uma página de informações do usuário, se necessário
+
                 },
               ),
               ListTile(
@@ -72,7 +70,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Homepage', style: TextStyle(fontSize: 24, color: Colors.white)),
+                const Text('Olá, o que deseja fazer?', style: TextStyle(fontSize: 24, color: Colors.white)),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(

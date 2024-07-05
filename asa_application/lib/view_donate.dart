@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewDonatePage extends StatelessWidget {
-  // Using super parameter directly
   const ViewDonatePage({super.key});
 
   @override
@@ -42,7 +41,6 @@ class ViewDonatePage extends StatelessWidget {
 class DonationDetailPage extends StatelessWidget {
   final DocumentSnapshot donation;
 
-  // Using super parameter directly
   const DonationDetailPage({super.key, required this.donation});
 
   @override

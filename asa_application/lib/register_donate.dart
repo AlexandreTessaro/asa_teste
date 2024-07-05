@@ -28,11 +28,11 @@ class RegisterDonatePageState extends State<RegisterDonatePage> {
           beneficiario: _beneficiarioController.text,
           cpf: _cpfController.text,
           rg: _rgController.text,
-          nascimento: DateTime.now(),  // Você pode adicionar um campo para capturar a data de nascimento
+          nascimento: DateTime.now(),  
           telefone: _telefoneController.text,
           endereco: _enderecoController.text,
           numeroPessoasResidencia: int.parse(_numeroPessoasResidenciaController.text),
-          itensDoacao: [],  // Adicionar lógica para capturar os itens de doação
+          itensDoacao: [],  
         );
         FirebaseFirestore.instance.collection('donations').add(donation.toMap()).then((_) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Doação registrada com sucesso')));
