@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'register_donate.dart'; 
 import 'view_donate.dart';
 import 'signin.dart'; 
+import 'overview_donate.dart'; // Certifique-se de criar este arquivo e página
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -22,8 +23,11 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       navigatorKey: navigatorKey, 
       home: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: const Text('Homepage'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         drawer: Drawer(
           child: ListView(
@@ -46,7 +50,7 @@ class HomePage extends StatelessWidget {
                 leading: const Icon(Icons.info),
                 title: const Text('Informações do Usuário'),
                 onTap: () {
-
+                  // Ação ao tocar em Informações do Usuário
                 },
               ),
               ListTile(
@@ -100,6 +104,21 @@ class HomePage extends StatelessWidget {
                     );
                   },
                   child: const Text('Visualizar Doações'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[800],
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OverviewDonatePage()), // Navegação para a nova página
+                    );
+                  },
+                  child: const Text('Visão Geral das Doações'),
                 ),
               ],
             ),

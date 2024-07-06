@@ -17,6 +17,19 @@ class RegisterDonatePageState extends State<RegisterDonatePage> {
   final _telefoneController = TextEditingController();
   final _enderecoController = TextEditingController();
   final _numeroPessoasResidenciaController = TextEditingController();
+  final List<Item> _itensDoacao = [];
+
+  void _addItem() {
+    setState(() {
+      _itensDoacao.add(Item(descricao: '', unidade: '', quantidade: 0));
+    });
+  }
+
+  void _removeItem(int index) {
+    setState(() {
+      _itensDoacao.removeAt(index);
+    });
+  }
 
   void _registerDonation() {
     if (_formKey.currentState!.validate()) {
@@ -28,15 +41,18 @@ class RegisterDonatePageState extends State<RegisterDonatePage> {
           beneficiario: _beneficiarioController.text,
           cpf: _cpfController.text,
           rg: _rgController.text,
-          nascimento: DateTime.now(),  
+          nascimento: DateTime.now(),
           telefone: _telefoneController.text,
           endereco: _enderecoController.text,
           numeroPessoasResidencia: int.parse(_numeroPessoasResidenciaController.text),
-          itensDoacao: [],  
+          itensDoacao: _itensDoacao,
         );
         FirebaseFirestore.instance.collection('donations').add(donation.toMap()).then((_) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Doação registrada com sucesso')));
           _formKey.currentState!.reset();
+          setState(() {
+            _itensDoacao.clear();
+          });
         }).catchError((error) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erro ao registrar doação: $error')));
         });
@@ -63,93 +79,297 @@ class RegisterDonatePageState extends State<RegisterDonatePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro de Doações'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: Form(
-        key: _formKey,
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blueGrey, Colors.black],
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: <Widget>[
-              TextFormField(
-                controller: _localController,
-                decoration: const InputDecoration(labelText: 'Local'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o local';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _beneficiarioController,
-                decoration: const InputDecoration(labelText: 'Beneficiário'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o beneficiário';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _cpfController,
-                decoration: const InputDecoration(labelText: 'CPF'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o CPF';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _rgController,
-                decoration: const InputDecoration(labelText: 'RG'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o RG';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _telefoneController,
-                decoration: const InputDecoration(labelText: 'Telefone'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o telefone';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _enderecoController,
-                decoration: const InputDecoration(labelText: 'Endereço'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o endereço';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _numeroPessoasResidenciaController,
-                decoration: const InputDecoration(labelText: 'Número de Pessoas na Residência'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o número de pessoas na residência';
-                  }
-                  if (int.tryParse(value) == null) {
-                    return 'Por favor, insira um número válido';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _registerDonation,
-                child: const Text('Registrar Doação'),
-              ),
-            ],
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: <Widget>[
+                TextFormField(
+                  controller: _localController,
+                  decoration: const InputDecoration(
+                    labelText: 'Local',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o local';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _beneficiarioController,
+                  decoration: const InputDecoration(
+                    labelText: 'Beneficiário',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o beneficiário';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _cpfController,
+                  decoration: const InputDecoration(
+                    labelText: 'CPF',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o CPF';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _rgController,
+                  decoration: const InputDecoration(
+                    labelText: 'RG',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o RG';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _telefoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Telefone',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o telefone';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _enderecoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Endereço',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o endereço';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _numeroPessoasResidenciaController,
+                  decoration: const InputDecoration(
+                    labelText: 'Número de Pessoas na Residência',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o número de pessoas na residência';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Itens Doação',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                const SizedBox(height: 10),
+                ..._itensDoacao.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  Item item = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            initialValue: item.descricao,
+                            decoration: const InputDecoration(
+                              labelText: 'Descrição',
+                              labelStyle: TextStyle(color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                            style: const TextStyle(color: Colors.white),
+                            onChanged: (value) {
+                              setState(() {
+                                item.descricao = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira a descrição';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextFormField(
+                            initialValue: item.unidade,
+                            decoration: const InputDecoration(
+                              labelText: 'Unidade',
+                              labelStyle: TextStyle(color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                            style: const TextStyle(color: Colors.white),
+                            onChanged: (value) {
+                              setState(() {
+                                item.unidade = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira a unidade';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextFormField(
+                            initialValue: item.quantidade.toString(),
+                            decoration: const InputDecoration(
+                              labelText: 'Quantidade',
+                              labelStyle: TextStyle(color: Colors.white),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                            style: const TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              setState(() {
+                                item.quantidade = int.tryParse(value) ?? 0;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira a quantidade';
+                              }
+                              if (int.tryParse(value) == null) {
+                                return 'Por favor, insira um número válido';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle, color: Colors.red),
+                          onPressed: () => _removeItem(index),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+                ElevatedButton(
+                  onPressed: _addItem,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[800],
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  child: const Text('Adicionar Item'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _registerDonation,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[800],
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  child: const Text('Registrar Doação'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
